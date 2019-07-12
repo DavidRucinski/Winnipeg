@@ -82,9 +82,15 @@ levels(service_request$`Service Request`)
 
 
 ```{r}
+service_request %>%
+  group_by(`Service Request`) %>%
+  summarize(sum = n()) %>%
+  ggplot( aes(x = reorder(`Service Request`,sum), y = sum)) +
+  geom_col() +
+  coord_flip()
 
 
-
+#Where is garbage being missed most often?
 ```
 
 
