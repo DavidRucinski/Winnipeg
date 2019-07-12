@@ -1,0 +1,104 @@
+---
+title: "311_Calls"
+author: "David Rucinski"
+date: "July 11, 2019"
+output: 
+    html_document:
+    theme: cerulean
+    highlight: espresso
+    toc: true
+    toc_float: false
+    toc_depth: 4
+    df_print: kable
+    code_folding: hide
+---
+
+```{r include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
+## **Objective**
+
+
+## **Summary**
+
+
+
+
+## **Preparations**
+
+*Packages used:*
+```{r packages, message = FALSE, warning=FALSE}
+library(data.table)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+```
+
+## **Analysis**
+
+### Data
+
+[Link to Winnipeg Data](URL)
+```{r Importing Data}
+
+service_request <- fread("311_Service_Request.csv")
+incoming_calls <-  fread("311_Incoming_Calls_By_Day.csv")
+```
+
+
+### Preprocessing
+
+To do:
+*Change chr as factors
+*Clean date
+*Time series with calls, any trends?
+*Neighbourhood calls, who calls the most? (Way too many for comparing)
+*Ward distribution for calls at time (x = time, y = n() , color = Ward) + geom_density 
+```{r Factors}
+glimpse(incoming_calls)
+head(service_request)
+
+
+service_request <- as.data.table(service_request)
+
+
+service_request[, Neighbourhood:= as.factor(Neighbourhood)]
+service_request[, Ward := as.factor(Ward)]
+service_request[, `Service Area` := as.factor(`Service Area`)]
+service_request[, `Service Request` := as.factor(`Service Request`)]
+
+# Split Location 1, longitude and latitude -> change as numeric
+
+service_request$Date <- parse_date_time(service_request$Date, '%m/%d/%Y %I:%M:%S %p')
+
+head(service_request)
+str(service_request)
+levels(service_request$`Service Request`)
+
+# wth is  "Frozen Catch Basin" ???
+```
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+
+
+
+```
+
+
+```{r}
+
+
+
+```
+
+
+
