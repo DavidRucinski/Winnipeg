@@ -76,14 +76,9 @@ head(service_request)
 str(service_request)
 levels(service_request$`Service Request`)
 
-# wth is  "Frozen Catch Basin" ???
+# "Frozen Catch Basin" sewer drains(catch basin)
 ```
 
-
-```{r}
-
-
-```
 
 
 ```{r}
