@@ -106,9 +106,16 @@ levels(service_request$`Service Request`)
 ```
 
 
+```{r dates for incoming}
+
+#Combine year, month, day --> put as date
+
+
+```
+
 #### Visualized 311 Service Requests
 ```{r}
-service_request %>% #filter(Date >= "2019-01-01 00:00:00 UTC") %>%
+service_request %>% filter(Date >= "2019-01-01 00:00:00 UTC") %>%
   group_by(`Service Request`) %>%
   summarize(sum = n()) %>%
   ggplot( aes(x = reorder(`Service Request`,sum), y = sum)) +
