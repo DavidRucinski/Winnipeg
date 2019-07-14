@@ -18,7 +18,7 @@ knitr::opts_chunk$set(comment = NA)
 ```
 
 ## **Objective**
-
+[Winnipeg](https://data.winnipeg.ca) has an open data catalogue, there are some options to visualize the data. It does not function well so I want to visualize it.
 
 ## **Summary**
 
@@ -39,11 +39,37 @@ library(lubridate)
 
 ### Data
 
-[Link to Winnipeg Data](URL)
+[Data](https://data.winnipeg.ca/Contact-Centre-311/311-Service-Request/4her-3th5) was extracted on 2019-06-30, by David Rucinski.
+
+*Should I get API and update this?*
 ```{r Importing Data}
 
 service_request <- fread("311_Service_Request.csv")
 incoming_calls <-  fread("311_Incoming_Calls_By_Day.csv")
+
+
+## API stuff
+
+## Install the required package with:
+## install.packages("RSocrata")
+
+# library("RSocrata")
+# 
+# df <- read.socrata(
+#   "https://data.winnipeg.ca/resource/4her-3th5.json",  #--> 311 service calls
+#   app_token = "YOURAPPTOKENHERE",
+#   email     = "user@example.com",
+#   password  = "fakepassword"
+# )
+# https://data.winnipeg.ca/resource/lane_closure.json #--> Lane closure
+#
+#
+# https://twitter.com/wpgpolice?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor #-->WPG Police twitter
+# https://twitter.com/cityofwinnipeg #--> City of WPG twitter
+# https://winnipeg.ctvnews.ca/ #--> ctv news 
+# https://www.winnipegfreepress.com/ #---> free press
+#  Also get weather
+
 ```
 
 
@@ -80,9 +106,9 @@ levels(service_request$`Service Request`)
 ```
 
 
-
+#### Visualized 311 Service Requests
 ```{r}
-service_request %>%
+service_request %>% #filter(Date >= "2019-01-01 00:00:00 UTC") %>%
   group_by(`Service Request`) %>%
   summarize(sum = n()) %>%
   ggplot( aes(x = reorder(`Service Request`,sum), y = sum)) +
@@ -93,10 +119,18 @@ service_request %>%
 #Where is garbage being missed most often?
 ```
 
-
+**Remove seasonal calls, i.e. snow calls, for the current season**
 ```{r}
+# To check this year filter(Date >= "2019-01-01 00:00:00 UTC") 
 
-
+service_request %>% #filter(Date >= "2019-01-01 00:00:00 UTC") %>%
+  group_by(`Service Request`) %>%
+  count(Date) %>%
+  group_by(`Service Request`, month=floor_date(Date, "month")) %>%
+  summarize(amount=sum(n)) %>%
+  ggplot( aes(x = month, y = amount) ) +
+  geom_line(color = "steelblue") +
+  facet_wrap(~ `Service Request`)
 
 ```
 
