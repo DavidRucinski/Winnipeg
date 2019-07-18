@@ -49,10 +49,12 @@ incoming_calls <-  fread("311_Incoming_Calls_By_Day.csv")
 
 
 ## API stuff
-
+#
+# https://github.com/Chicago/RSocrata Reference for API link in R
+#
 ## Install the required package with:
 ## install.packages("RSocrata")
-
+#
 # library("RSocrata")
 # 
 # df <- read.socrata(
@@ -114,13 +116,14 @@ levels(service_request$`Service Request`)
 ```
 
 #### Visualized 311 Service Requests
-```{r}
+```{r, fig.width = 12, fig.height = 8}
 service_request %>% filter(Date >= "2019-01-01 00:00:00 UTC") %>%
   group_by(`Service Request`) %>%
   summarize(sum = n()) %>%
   ggplot( aes(x = reorder(`Service Request`,sum), y = sum)) +
-  geom_col() +
-  coord_flip()
+  geom_col( fill = "steelblue") +
+  coord_flip() +
+  geom_text(aes(label = round(sum), y = sum + 200))
 
 
 #Where is garbage being missed most often?
