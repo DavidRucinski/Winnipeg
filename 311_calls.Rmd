@@ -135,13 +135,15 @@ service_request %>% filter(Date >= "2019-01-01 00:00:00 UTC") %>%
 
 service_request %>% #filter(Date >= "2019-01-01 00:00:00 UTC") %>%
   group_by(`Service Request`) %>%
+  filter(`Service Request` %in% c("Graffiti","Potholes", "Neighbourhood Liveability Complaint")) %>%
   count(Date) %>%
   group_by(`Service Request`, month=floor_date(Date, "month")) %>%
   summarize(amount=sum(n)) %>%
-  ggplot( aes(x = month, y = amount) ) +
-  geom_line(color = "steelblue") +
-  facet_wrap(~ `Service Request`)
+  ggplot( aes(x = month, y = amount, col = `Service Request`) ) +
+  geom_line() #+
+  #facet_wrap(~ `Service Request`)
 
+#levels(service_request$`Service Request`)
 ```
 
 
