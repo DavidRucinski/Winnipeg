@@ -139,6 +139,17 @@ service_request %>%
 # WAY TOO many neighbourhoods for that, though we could cut off to top 20?
 # Maybe we should by ward
 
+service_request %>%
+  filter(`Service Request` == "Missed Garbage Collection") %>%
+  group_by(Ward) %>%
+  summarize(sum = n()) %>%
+  ggplot( aes(x = reorder(Ward, sum), y = sum)) +
+   geom_col() +
+   coord_flip()
+
+
+# Yes this one works better
+
 ```
 
 **Remove seasonal calls, i.e. snow calls, for the current season**
