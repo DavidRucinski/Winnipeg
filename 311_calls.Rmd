@@ -121,12 +121,24 @@ service_request %>% filter(Date >= "2019-01-01 00:00:00 UTC") %>%
   group_by(`Service Request`) %>%
   summarize(sum = n()) %>%
   ggplot( aes(x = reorder(`Service Request`,sum), y = sum)) +
-  geom_col( fill = "steelblue") +
-  coord_flip() +
-  geom_text(aes(label = round(sum), y = sum + 200))
+   geom_col( fill = "steelblue") +
+   coord_flip() +
+    geom_text(aes(label = round(sum), y = sum + 200))
 
 
 #Where is garbage being missed most often?
+
+service_request %>%
+  filter(`Service Request` == "Missed Garbage Collection") %>%
+  group_by(Neighbourhood) %>%
+  summarize(sum = n()) %>%
+  ggplot( aes(x = reorder(Neighbourhood, sum), y = sum)) +
+   geom_col() +
+   coord_flip()
+
+# WAY TOO many neighbourhoods for that, though we could cut off to top 20?
+# Maybe we should by ward
+
 ```
 
 **Remove seasonal calls, i.e. snow calls, for the current season**
