@@ -75,6 +75,19 @@ incoming_calls <-  fread("311_Incoming_Calls_By_Day.csv")
 ```
 
 
+```{r defining_a_theme, echo = FALSE}
+theme_simple <- function(){
+  theme_minimal() +
+  theme(plot.background = element_rect(fill = "gray90"),
+        plot.margin = unit(c(5, 10, 5, 10), units = "mm"),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank(),
+        plot.caption = element_text(color = "gray20")
+        ) 
+}
+``` 
+
+
 ### Preprocessing
 
 To do:
